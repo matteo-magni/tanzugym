@@ -1,0 +1,112 @@
+site_name: The Tanzu Gym
+site_url: https://matteo-magni.github.io/tanzugym
+site_description: Docs, code and samples for my own Tanzu gym
+docs_dir: docs/
+repo_name: matteo-magni/tanzugym
+repo_url: https://github.com/matteo-magni/tanzugym
+edit_uri: ''
+copyright: 'Copyright &copy; 2023 Matteo Magni'
+
+# Theme
+# Configuration
+theme:
+  features:
+    - navigation.tabs
+    - navigation.instant
+    - navigation.tabs.sticky
+    - content.code.annotate
+  name: material
+  language: 'en'
+  icon:
+    logo: material/kubernetes
+  # logo: assets/tanzu.png
+  palette:
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: light blue
+      accent: lime
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: lime
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  font:
+    text: 'Metropolis,Avenir Next,Helvetica Neue,Arial,sans-serif'
+    code: 'JetBrains Mono'
+
+extra_css:
+  - assets/extra.css
+    
+plugins:
+  - git-revision-date-localized:
+      type: iso_datetime
+  - search
+  - minify:
+      minify_html: true
+
+extra:
+  generator: false
+  # version:
+  #   method: mike
+  #   provider: mike
+
+# Extensions
+markdown_extensions:
+  - abbr
+  - attr_list
+  - footnotes
+  - admonition
+  - codehilite:
+      linenums: true
+      guess_lang: true
+  - def_list
+  - meta
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.critic
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true 
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+nav:
+- HOME: index.md
+- Tanzu Kubernetes Grid:
+  - tkgm/index.md
+  - tkgm/bastion.md
+  - Internal registry:
+    - tkgm/registry.md
+    - tkgm/relocate-images.md
+  - tkgm/management-cluster.md
+  - tkgm/workload-cluster.md
+  - tkgm/ingress.md
+  - tkgm/identity-management.md
+  - tkgm/troubleshooting.md

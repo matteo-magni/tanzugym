@@ -1,4 +1,4 @@
-# The Tanzu gym
+# The Tanzu Gym
 
 This repository is my own space to keep track of my learnings around the [VMware Tanzu](https://tanzu.vmware.com/tanzu) portfolio.
 
