@@ -253,7 +253,7 @@ thats has been relocated in the internal registry during [image relocation](./re
 You can add the repository as
 
 ```sh
-tanzu package repository add tanzu-standard --url registry.my.domain/tkg/packages/standard/repo:v2.1.0 --namespace tkg-system
+tanzu package repository add tanzu-standard --url ${TKG_CUSTOM_IMAGE_REPOSITORY}/packages/standard/repo:v2.1.0 --namespace tkg-system
 ```
 
 and, as soon as the reconciliation succeeds, you can list available packages:

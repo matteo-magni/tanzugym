@@ -114,6 +114,13 @@ curl -sSfL https://github.com/junegunn/fzf/releases/download/0.38.0/fzf-0.38.0-l
 install fzf ${LOCALBIN}/fzf
 ```
 
+### `k9s`
+
+```sh
+curl -sSfL https://github.com/derailed/k9s/releases/download/v0.27.3/k9s_Linux_amd64.tar.gz | tar xzf - k9s
+install k9s ${LOCALBIN}/k9s
+```
+
 ### `yq`
 
 ```sh
@@ -189,8 +196,7 @@ Just make sure that
 Select the proper version/platform from <https://github.com/vmware/govmomi/releases> and install it, i.e.:
 
 ```sh
-curl -sSfL -o govc.tar.gz https://github.com/vmware/govmomi/releases/download/v0.30.2/govc_Linux_x86_64.tar.gz
-tar xzvf govc.tar.gz govc
+curl -sSfL https://github.com/vmware/govmomi/releases/download/v0.30.2/govc_Linux_x86_64.tar.gz | tar xzf - govc
 install govc ${LOCALBIN}/govc
 ```
 
@@ -206,6 +212,7 @@ curl -L https://carvel.dev/install.sh | K14SIO_INSTALL_BIN_DIR=${LOCALBIN} bash
 
 The `tanzu` CLI is available within the TKG product.
 Using `vcc` you can browse the products/subproducts/versions/files hierarchy and download exactly what you need.
+Make sure you choose the correct file for your platform (i.e. `linux-amd64`).
 
 For example,
 
@@ -234,5 +241,20 @@ Now you can install the `tanzu` CLI:
 ```sh
 tar xvzf vcc-downloads/tanzu-cli-bundle-linux-amd64.tar.gz
 install cli/core/v0.28.0/tanzu-core-linux_amd64 ${LOCALBIN}/tanzu
-tanzu init
+```
+
+and the bundled plugins:
+
+```sh
+tar xzf tanzu-framework-plugins-standalone-linux-amd64.tar.gz -C cli
+tanzu plugin install all --local cli/standalone-plugins
+
+tar xzf tanzu-framework-plugins-context-linux-amd64.tar.gz -C cli
+tanzu plugin install all --local cli/context-plugins
+```
+
+Now you can get rid of the `cli` directory:
+
+```sh
+rm -rf cli
 ```
