@@ -162,6 +162,13 @@ govc library.deploy -options harbor.json /ova/harbor registry
 ```
 
 ??? tip
+    The mandatory properties in the `PropertyMapping` array are:
+
+    - `guestinfo.root_password`
+    - `guestinfo.harbor_admin_password`
+
+    Hre's a few notes about other fields in this file:
+
     !!! note ""
         __DiskProvisioning__
 

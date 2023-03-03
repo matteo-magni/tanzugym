@@ -1,8 +1,8 @@
 # Troubleshooting
 
-## SSH into the nodes
+<!-- ## SSH into the nodes
 
-## Nodes not joining the cluster
+## Nodes not joining the cluster -->
 
 ## Change Kube-VIP IP address
 
@@ -156,8 +156,42 @@ You can then observe the nodes as they get replaced.
     Be aware that this will make the connection drop, as the Kube-VIP will need to be re-negotiated between the old and new node(s),
     so make sure you run this during a proper maintenance window.
 
-## Provide custom CA certificates to Pinniped
+<!-- ## Provide custom CA certificates to Pinniped
 
 If your OIDC IdP endpoint exposes a TLS certificate signed by an unknown authority (i.e. own company CA),
 you need to provide the CA certificate to pinniped, otherwise the connection will fail.
-Same thing if pinniped gets to the IdP endpoint via a TLS-enabled proxy that uses a custom CA
+Same thing if pinniped gets to the IdP endpoint via a TLS-enabled proxy that uses a custom CA -->
+
+## The registry throttles the upload-bundle command
+
+The `tanzu isolated-cluster upload-bundle` command pushes multiple images in parallel to the registry,
+and this may cause congestion resulting in upload failures.
+
+As of now, the above command has no flags or modifiers (that I'm aware of) to decrease the number of parallel uploads,
+but you can manually push the images leveraging `imgpkg` directly.
+
+The `tanzu isolated-cluster download-bundle` command, used to pull the images, creates the `publish-images-fromtar.yaml` file
+to map every tar file to its correspondent OCI image path, and it looks like
+
+```yaml
+ako-operator-v1.7.0_vmware.3.tar: ako-operator
+ako-v1.8.2_vmware.1.tar: ako
+antrea-advanced-debian-v1.7.2_vmware.1.tar: antrea-advanced-debian
+azure-cloud-controller-manager-v1.1.26_vmware.1.tar: azure-cloud-controller-manager
+azure-cloud-controller-manager-v1.23.23_vmware.1.tar: azure-cloud-controller-manager
+azure-cloud-controller-manager-v1.24.10_vmware.1.tar: azure-cloud-controller-manager
+azure-cloud-node-manager-v1.1.26_vmware.1.tar: azure-cloud-node-manager
+azure-cloud-node-manager-v1.23.23_vmware.1.tar: azure-cloud-node-manager
+azure-cloud-node-manager-v1.24.10_vmware.1.tar: azure-cloud-node-manager
+calico-all-cni-v3.24.1_vmware.1.tar: calico-all/cni
+...
+```
+
+So the following snippet can be used to parse this file and push the images sequentially:
+
+```sh
+cd /path/to/tkgm-bundle
+yq e 'to_entries|map("imgpkg copy --tar " + .key + " --registry-ca-cert-path /path/to/harbor-ca.pem --to-repo ${TKG_CUSTOM_IMAGE_REPOSITORY}/" + .value)|.[]' publish-images-fromtar.yaml | bash
+```
+
+This script uses the same info as the [images relocation section](./relocate-images.md), like the `tkgm-bundle` directory and the `harbor-ca.pem` file.
