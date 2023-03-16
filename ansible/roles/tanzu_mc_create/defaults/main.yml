@@ -1,0 +1,54 @@
+---
+# defaults file for tanzu_mc_create
+
+vsphere_insecure: false
+enable_audit_logging: false
+enable_ceip_participation: false
+enable_mhc: false
+os_arch: amd64
+os_name: photon
+os_version: "3"
+cluster_annotations: "description:,location:"
+cluster_cidr: 100.96.0.0/11
+service_cidr: 100.64.0.0/13
+
+tkg_http_proxy_enabled: false
+tkg_http_proxy: ""
+tkg_https_proxy: ""
+tkg_no_proxy: ""
+tkg_proxy_ca_cert: ""
+
+tkg_custom_image_repository: ""
+tkg_custom_image_repository_ca_certificate: ""
+
+vsphere_control_plane_disk_gib: 40
+vsphere_control_plane_mem_mib: 4096
+vsphere_control_plane_num_cpus: 2
+control_plane_machine_count: 1
+
+vsphere_worker_disk_gib: 40
+vsphere_worker_mem_mib: 8192
+vsphere_worker_num_cpus: 4
+worker_machine_count: 1
+
+identity_management_type: none
+oidc_identity_provider_client_id: ""
+oidc_identity_provider_client_secret: ""
+oidc_identity_provider_groups_claim: ""
+oidc_identity_provider_issuer_url: ""
+oidc_identity_provider_name: ""
+oidc_identity_provider_scopes: ""
+oidc_identity_provider_username_claim: ""
+ldap_bind_dn: ""
+ldap_bind_password: ""
+ldap_group_search_base_dn: ""
+ldap_group_search_filter: ""
+ldap_group_search_group_attribute: ""
+ldap_group_search_name_attribute: ""
+ldap_group_search_user_attribute: ""
+ldap_host: ""
+ldap_root_ca_data_b64: ""
+ldap_user_search_base_dn: ""
+ldap_user_search_filter: ""
+ldap_user_search_name_attribute: ""
+ldap_user_search_username: "userPrincipalName"

@@ -1,0 +1,4 @@
+---
+- name: Configure tanzu CLI
+  ansible.builtin.shell: |
+    env.

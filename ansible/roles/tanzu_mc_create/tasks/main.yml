@@ -1,0 +1,6 @@
+---
+# tasks file for tanzu_mc_create
+
+- name: Prepare mc file
+  ansible.builtin.include_tasks:
+    file: create-mc-file.yml

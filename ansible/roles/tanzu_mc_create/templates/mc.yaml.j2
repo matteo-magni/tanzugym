@@ -1,0 +1,103 @@
+### FORCE TKGM OVER TKGS
+DEPLOY_TKG_ON_VSPHERE7: true
+
+### AVI
+# AVI_ENABLE: false
+# AVI_CA_DATA_B64: ""
+# AVI_CLOUD_NAME: ""
+# AVI_CONTROL_PLANE_HA_PROVIDER: false
+# AVI_CONTROL_PLANE_NETWORK: ""
+# AVI_CONTROL_PLANE_NETWORK_CIDR: ""
+# AVI_CONTROLLER: ""
+# AVI_DATA_NETWORK: ""
+# AVI_DATA_NETWORK_CIDR: ""
+# AVI_LABELS: ""
+# AVI_MANAGEMENT_CLUSTER_CONTROL_PLANE_VIP_NETWORK_CIDR: ""
+# AVI_MANAGEMENT_CLUSTER_CONTROL_PLANE_VIP_NETWORK_NAME: ""
+# AVI_MANAGEMENT_CLUSTER_SERVICE_ENGINE_GROUP: ""
+# AVI_MANAGEMENT_CLUSTER_VIP_NETWORK_CIDR: ""
+# AVI_MANAGEMENT_CLUSTER_VIP_NETWORK_NAME: ""
+# AVI_PASSWORD: ""
+# AVI_SERVICE_ENGINE_GROUP: ""
+# AVI_USERNAME: ""
+
+### VSPHERE DETAILS
+INFRASTRUCTURE_PROVIDER: vsphere
+VSPHERE_DATACENTER: "{{ vsphere_datacenter }}"
+VSPHERE_DATASTORE: "{{ vsphere_datastore }}"
+VSPHERE_FOLDER: "{{ vsphere_folder }}"
+VSPHERE_IGNORE_PCI_DEVICES_ALLOW_LIST: ""
+VSPHERE_INSECURE: "{{ vsphere_insecure | string | lower }}"
+VSPHERE_NETWORK: "{{ vsphere_network }}"
+VSPHERE_PASSWORD: "<encoded:{{ vsphere_password_b64 }}>"
+VSPHERE_RESOURCE_POOL: "{{ vsphere_resource_pool }}"
+VSPHERE_SERVER: "{{ vsphere_server }}"
+VSPHERE_SSH_AUTHORIZED_KEY: "{{ vsphere_ssh_authorized_key }}"
+VSPHERE_TLS_THUMBPRINT: "{{ vsphere_tls_thumbprint }}"
+VSPHERE_USERNAME: "{{ vsphere_username }}"
+
+### CLUSTER SPECS
+CLUSTER_ANNOTATIONS: "{{ cluster_annotations }}"
+CLUSTER_CIDR: "{{ cluster_cidr }}"
+CLUSTER_NAME: "{{ cluster_name }}"
+CLUSTER_PLAN: "{{ cluster_plan }}"
+ENABLE_AUDIT_LOGGING: "{{ enable_audit_logging | string | lower }}"
+ENABLE_CEIP_PARTICIPATION: "{{ enable_ceip_participation | string | lower }}"
+ENABLE_MHC: "{{ enable_mhc | string | lower }}"
+OS_ARCH: "{{ os_arch }}"
+OS_NAME: "{{ os_name }}"
+OS_VERSION: "{{ os_version }}"
+SERVICE_CIDR: {{ service_cidr }}
+TKG_CUSTOM_IMAGE_REPOSITORY: "{{ tkg_custom_image_repository }}"
+TKG_CUSTOM_IMAGE_REPOSITORY_CA_CERTIFICATE: "{{ tkg_custom_image_repository_ca_certificate_b64 }}"
+
+### PROXY CONFIGS
+TKG_HTTP_PROXY_ENABLED: "{{ tkg_http_proxy_enabled | string | lower }}"
+TKG_HTTP_PROXY: "{{ tkg_http_proxy }}"
+TKG_HTTPS_PROXY: "{{ tkg_https_proxy }}"
+TKG_NO_PROXY: "{{ tkg_no_proxy_full }}"
+TKG_PROXY_CA_CERT: "{{ tkg_proxy_ca_cert_b64 }}"
+
+### CONTROL PLANE
+VSPHERE_CONTROL_PLANE_CUSTOM_VMX_KEYS: ""
+VSPHERE_CONTROL_PLANE_DISK_GIB: "{{ vsphere_control_plane_disk_gib }}"
+VSPHERE_CONTROL_PLANE_ENDPOINT: "{{ vsphere_control_plane_endpoint }}"
+VSPHERE_CONTROL_PLANE_HARDWARE_VERSION: ""
+VSPHERE_CONTROL_PLANE_MEM_MIB: "{{ vsphere_control_plane_mem_mib }}"
+VSPHERE_CONTROL_PLANE_NUM_CPUS: "{{ vsphere_control_plane_num_cpus }}"
+VSPHERE_CONTROL_PLANE_PCI_DEVICES: ""
+CONTROL_PLANE_MACHINE_COUNT: "{{ control_plane_machine_count }}"
+
+### WORKER NODES
+VSPHERE_WORKER_CUSTOM_VMX_KEYS: ""
+VSPHERE_WORKER_DISK_GIB: "{{ vsphere_worker_disk_gib }}"
+VSPHERE_WORKER_HARDWARE_VERSION: ""
+VSPHERE_WORKER_MEM_MIB: "{{ vsphere_worker_mem_mib }}"
+VSPHERE_WORKER_NUM_CPUS: "{{ vsphere_worker_num_cpus }}"
+VSPHERE_WORKER_PCI_DEVICES: ""
+WORKER_ROLLOUT_STRATEGY: ""
+WORKER_MACHINE_COUNT: "{{ worker_machine_count }}"
+
+### IDENTITY MANAGEMENT
+IDENTITY_MANAGEMENT_TYPE: "{{ identity_management_type }}"
+OIDC_IDENTITY_PROVIDER_CLIENT_ID: "{{ oidc_identity_provider_client_id }}"
+OIDC_IDENTITY_PROVIDER_CLIENT_SECRET: "{{ oidc_identity_provider_client_secret }}"
+OIDC_IDENTITY_PROVIDER_GROUPS_CLAIM: "{{ oidc_identity_provider_groups_claim }}"
+OIDC_IDENTITY_PROVIDER_ISSUER_URL: "{{ oidc_identity_provider_issuer_url }}"
+OIDC_IDENTITY_PROVIDER_NAME: "{{ oidc_identity_provider_name }}"
+OIDC_IDENTITY_PROVIDER_SCOPES: "{{ oidc_identity_provider_scopes }}"
+OIDC_IDENTITY_PROVIDER_USERNAME_CLAIM: "{{ oidc_identity_provider_username_claim }}"
+
+LDAP_BIND_DN: "{{ ldap_bind_dn }}"
+LDAP_BIND_PASSWORD: "{{ ldap_bind_password }}"
+LDAP_GROUP_SEARCH_BASE_DN: "{{ ldap_group_search_base_dn }}"
+LDAP_GROUP_SEARCH_FILTER: "{{ ldap_group_search_filter }}"
+LDAP_GROUP_SEARCH_GROUP_ATTRIBUTE: "{{ ldap_group_search_group_attribute }}"
+LDAP_GROUP_SEARCH_NAME_ATTRIBUTE: "{{ ldap_group_search_name_attribute }}"
+LDAP_GROUP_SEARCH_USER_ATTRIBUTE: "{{ ldap_group_search_user_attribute }}"
+LDAP_HOST: "{{ ldap_host }}"
+LDAP_ROOT_CA_DATA_B64: "{{ ldap_root_ca_data_b64 }}"
+LDAP_USER_SEARCH_BASE_DN: "{{ ldap_user_search_base_dn }}"
+LDAP_USER_SEARCH_FILTER: "{{ ldap_user_search_filter }}"
+LDAP_USER_SEARCH_NAME_ATTRIBUTE: "{{ ldap_user_search_name_attribute }}"
+LDAP_USER_SEARCH_USERNAME: "{{ ldap_user_search_username }}"

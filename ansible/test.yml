@@ -1,0 +1,11 @@
+- hosts: localhost
+  name: test
+  gather_facts: false
+  tasks:
+    - name: Define vars
+      ansible.builtin.set_fact:
+        filename: "asd/filename"
+
+    - name: Debug
+      ansible.builtin.debug:
+        msg: "{{ filename | dirname }}"

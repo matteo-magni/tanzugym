@@ -1,0 +1,6 @@
+---
+- name: Create management cluster
+  hosts: bootstrap
+  gather_facts: false
+  roles:
+    - tanzu_mc_create
