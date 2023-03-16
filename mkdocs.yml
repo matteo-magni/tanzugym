@@ -15,6 +15,7 @@ theme:
     - navigation.instant
     - navigation.tabs.sticky
     - content.code.annotate
+    - content.code.copy
   name: material
   language: 'en'
   icon:
