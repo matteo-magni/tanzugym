@@ -99,6 +99,15 @@ sudo ln -sf /opt/kubectx/kubectx ${LOCALBIN}/kubectx
 sudo ln -sf /opt/kubectx/kubens ${LOCALBIN}/kubens
 ```
 
+### `kubectl-tree`
+
+Show resources hierarchy
+
+```sh
+curl -sSfL https://github.com/ahmetb/kubectl-tree/releases/download/v0.4.3/kubectl-tree_v0.4.3_linux_amd64.tar.gz | tar xzf - kubectl-tree
+sudo install kubectl-tree ${LOCALBIN}
+```
+
 ### helm
 
 ```sh
@@ -119,6 +128,15 @@ install fzf ${LOCALBIN}/fzf
 ```sh
 curl -sSfL https://github.com/derailed/k9s/releases/download/v0.27.3/k9s_Linux_amd64.tar.gz | tar xzf - k9s
 install k9s ${LOCALBIN}/k9s
+```
+
+### `stern`
+
+Stern is a CLI tool to tail logs from multiple pods and multiple containers at the same time.
+
+```sh
+curl -sSfL https://github.com/stern/stern/releases/download/v1.24.0/stern_1.24.0_linux_amd64.tar.gz | tar xzf - stern
+sudo install stern ${LOCALBIN}
 ```
 
 ### `yq`
