@@ -37,3 +37,15 @@
     src: templates/mc.yaml.j2
     dest: "{{ cluster_file.path }}"
     mode: "0644"
+
+- name: Create namespace {{ namespace }}
+  ansible.builtin.shell: |
+    kubectl apply -f - <<EOF
+    {{ namespace_manifest }}
+    EOF
+  vars:
+    namespace_manifest: |
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: {{ namespace }}
