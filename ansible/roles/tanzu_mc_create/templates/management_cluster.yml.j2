@@ -53,9 +53,9 @@ TKG_CUSTOM_IMAGE_REPOSITORY_CA_CERTIFICATE: "{{ tkg_custom_image_repository_ca_c
 
 ### PROXY CONFIGS
 TKG_HTTP_PROXY_ENABLED: "{{ tkg_http_proxy_enabled | string | lower }}"
-TKG_HTTP_PROXY: "{{ tkg_http_proxy }}"
-TKG_HTTPS_PROXY: "{{ tkg_https_proxy }}"
-TKG_NO_PROXY: "{{ tkg_no_proxy_full }}"
+TKG_HTTP_PROXY: "{{ tkg_http_proxy_computed }}"
+TKG_HTTPS_PROXY: "{{ tkg_https_proxy_computed }}"
+TKG_NO_PROXY: "{{ tkg_no_proxy_computed }}"
 TKG_PROXY_CA_CERT: "{{ tkg_proxy_ca_cert_b64 }}"
 
 ### CONTROL PLANE

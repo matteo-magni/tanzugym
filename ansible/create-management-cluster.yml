@@ -1,6 +1,13 @@
 ---
+
 - name: Create management cluster
   hosts: bootstrap
-  gather_facts: false
+  gather_facts: true
+
   roles:
     - tanzu_mc_create
+
+  environment:
+    http_proxy: ""
+    https_proxy: ""
+    no_proxy: ""

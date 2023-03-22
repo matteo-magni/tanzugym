@@ -1,4 +1,2 @@
 ---
 # vars file for tanzu_mc_create
-
-a: "{{ a + 'b' }}"

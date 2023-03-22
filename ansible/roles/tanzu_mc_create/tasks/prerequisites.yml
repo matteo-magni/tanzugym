@@ -1,0 +1,61 @@
+---
+- name: Dump env
+  ansible.builtin.debug:
+    var: ansible_env
+
+- name: Get the vcenter certificate
+  community.crypto.get_certificate:
+    host: "{{ vsphere_server }}"
+    port: 443
+  register: vcenter_cert
+
+- name: Get information on certificate
+  community.crypto.x509_certificate_info:
+    content: "{{ vcenter_cert.cert }}"
+  register: vcenter_cert_info
+
+- name: Detect http_proxy_enabled
+  ansible.builtin.set_fact:
+    tkg_http_proxy_enabled: "{{ (tkg_http_proxy_enabled == '') | ternary(tkg_http_proxy | length > 0, tkg_http_proxy_enabled) }}"
+
+- name: Define computed variables
+  ansible.builtin.set_fact:
+    vsphere_tls_thumbprint: "{{ vcenter_cert_info.fingerprints.sha1 | upper }}"
+    vsphere_password_b64: "{{ vsphere_password | b64encode }}"
+
+    tkg_http_proxy_computed: "{{ tkg_http_proxy_enabled | ternary(tkg_http_proxy, '') }}"
+    tkg_https_proxy_computed: "{{ tkg_http_proxy_enabled | ternary(tkg_https_proxy, '') }}"
+    tkg_no_proxy_computed: "{{ tkg_http_proxy_enabled | ternary(tkg_no_proxy + ',' + (extra_no_proxy_patterns | default([]) | join(',')), '') }}"
+    tkg_proxy_ca_cert_b64: "{{ (tkg_http_proxy_enabled and tkg_proxy_ca_cert != '') | ternary(tkg_proxy_ca_cert | b64encode, '') }}"
+
+    tkg_custom_image_repository_ca_certificate_b64: "{{ tkg_custom_image_repository_ca_certificate | b64encode }}"
+  vars:
+    extra_no_proxy_patterns:
+      - localhost
+      - "127.0.0.1"
+      - "{{ vsphere_server }}"
+      - "{{ cluster_cidr }}"
+      - "{{ service_cidr }}"
+      - "{{ vsphere_control_plane_network }}"
+
+- name: Create temporary directory for cluster files
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: ".{{ cluster_name }}"
+  register: cluster_dir
+
+- name: Define cluster files paths
+  ansible.builtin.set_fact:
+    cluster_config: "{{ cluster_dir.path }}/config.yml"
+    cluster_log: "{{ cluster_dir.path }}/log"
+    kubeconfig_folder: "{{ ansible_env['HOME'] }}/kubeconfig"
+
+- name: Create kubeconfig folder
+  ansible.builtin.file:
+    state: directory
+    path: "{{ kubeconfig_folder }}"
+    mode: "0700"
+
+- name: Define kubeconfig file location
+  ansible.builtin.set_fact:
+    kubeconfig_management: "{{ kubeconfig_folder }}/{{ cluster_name }}"

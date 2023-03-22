@@ -1,6 +1,10 @@
 ---
 # tasks file for tanzu_mc_create
 
-- name: Prepare mc file
+- name: Include prerequisites.yml
   ansible.builtin.include_tasks:
-    file: create-mc-file.yml
+    file: prerequisites.yml
+
+- name: Include create-management-cluster.yml
+  ansible.builtin.include_tasks:
+    file: create-management-cluster.yml
