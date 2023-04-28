@@ -29,14 +29,24 @@ photon-4-harbor-v2.6.3+vmware.1-9c5c48c408fac6cef43c4752780c4b048e42d562.ova   1
 ...
 ```
 
+Save the name to a variable, for DRY purposes:
+
+```sh
+HARBOR_OVA="photon-4-harbor-v2.6.3+vmware.1-9c5c48c408fac6cef43c4752780c4b048e42d562.ova"
+```
+
 Then download the file:
 
 ```sh
-vcc download -p vmware_tanzu_kubernetes_grid -s tkg -v 2.1.0 -f 'photon-4-harbor-v2.6.3+vmware.1-9c5c48c408fac6cef43c4752780c4b048e42d562.ova' --accepteula
+vcc download -p vmware_tanzu_kubernetes_grid -s tkg -v 2.1.0 -f ${HARBOR_OVA} --accepteula
 ```
 
-The file will be stored by default at `$HOME/vcc-downloads/`, and you can then upload it to a content library of choice on your vSphere platform.
-Make sure that `govc` is [installed](./bastion.md#govc) and authentication has been properly configured, like:
+The file will be stored by default at `$HOME/vcc-downloads/`.
+
+## Install appliance
+
+You can now deploy a VM out of the downloaded OVA using `govc`.
+Make sure it is [installed](./bastion.md#govc) and authentication has been properly configured, like:
 
 ```sh
 export GOVC_URL=my.vcenter.fqdn
@@ -46,33 +56,15 @@ export GOVC_INSECURE=true
 ```
 
 The last line is needed if the vCenter certificate is not yet trusted by your bastion host.
-Now you can create a content library if you don't have one ready
+
+You need a configuration file for customising the template to your needs and produce an actual VM.
+Please export the spec to a file as
 
 ```sh
-govc library.create ova
+govc import.spec $HOME/vcc-downloads/${HARBOR_OVA} | jq > harbor.json
 ```
 
-and upload the Harbor OVA file
-
-```sh
-govc library.import -n harbor ova $HOME/vcc-downloads/photon-4-harbor-v2.6.3+vmware.1-9c5c48c408fac6cef43c4752780c4b048e42d562.ova
-```
-
-## Install appliance
-
-The template is now available on vSphere and can be used to deploy a VM,
-which can be customised by providing values to the parameters that have been set in the OVA.
-
-[This blog post](https://williamlam.com/2016/04/slick-way-of-deploying-ovfova-directly-to-esxi-vcenter-server-using-govc-cli.html) explains how to make use of `govc` to deploy a VM from an OVA.
-Although it is about deploying a vCenter appliance, it is also generic enough to provide guidance for our case, too.
-
-Inspecting the OVA allows you to get all the properties that you need to provide a value for:
-
-```sh
-govc import.spec $HOME/vcc-downloads/photon-4-harbor-v2.6.3+vmware.1-9c5c48c408fac6cef43c4752780c4b048e42d562.ova | jq > harbor.spec.json
-```
-
- and you get something like the following sample JSON snippet
+and you get something like the following sample JSON snippet
 
 ??? example "harbor.json"
     ```json
@@ -154,20 +146,20 @@ govc import.spec $HOME/vcc-downloads/photon-4-harbor-v2.6.3+vmware.1-9c5c48c408f
     }
     ```
 
-which you can tune to your liking by filling in the actual values for your environment,
-and supply to the following command to deploy a new virtual machine (named `registry`) running Harbor:
-
-```sh
-govc library.deploy -options harbor.json /ova/harbor registry
-```
+which you can tune to your liking by filling in the actual values for your environment (see following tips)
 
 ??? tip
-    The mandatory properties in the `PropertyMapping` array are:
+    A few notes about properties in the `PropertyMapping` array:
 
-    - `guestinfo.root_password`
-    - `guestinfo.harbor_admin_password`
+    !!! note ""
+        __Passwords__
+        
+        The following passwords have to be at least 8 and at most 128 characters long:
 
-    Hre's a few notes about other fields in this file:
+        - `guestinfo.root_password`
+        - `guestinfo.harbor_admin_password`
+
+        No other complexity requirements have to be met.
 
     !!! note ""
         __DiskProvisioning__
@@ -202,6 +194,22 @@ govc library.deploy -options harbor.json /ova/harbor registry
         CA and server certificates and key must be supplied in plain PEM format, not base64-encoded.
         If no values are provided they will be auto-generated, thus they will be self-signed (not recommended for production use).
 
+    !!! note ""
+        __PowerOn__
+
+        If set to `true`, the VM will be powered on as soon as it's created.
+
+    !!! note ""
+        __WaitForIP__
+
+        If set to `true`, `govc` will not return until the VM acquires an IP address.
+
+Finally, you run the following command to deploy a new virtual machine (named `registry`):
+
+```sh
+govc import.ova -options harbor.json -name registry $HOME/vcc-downloads/${HARBOR_OVA}
+```
+
 ## Trust your registry
 
 You need to make sure that the Docker client on the bastion host trusts the internal registry.
@@ -231,12 +239,13 @@ Navigating to the Harbor UI[^1] as `admin` user, you can follow the `Projects` l
 The pop-up modal window allows you to set the name (we can name it `tkg`), the quota and whether or not it should be publicly accessible (no authentication required).
 More granular settings can be applied by editing the project after it has been created.
 
-If the organisation's security policies allow, it is simpler to set this project as public, because
+!!! warning
+    For TKG to successfully pull platform images, the `tkg` Harbor project **must be public**.
 
-- images are publicly available anyways at `projects.registry.vmware.com/tkg`
-- public access means that unauthorised users (which includes the unauthenticated ones) are allowed to pull but not to push images
+    If concerned about security implications, please note that
 
-However, if stricter policies apply, a read-only user will need to be created during [next step](#configure-users).
+    - images are publicly available anyways at `projects.registry.vmware.com/tkg`;
+    - public access means that **unauthorised users** (which includes the **unauthenticated** ones) are allowed to pull but not to push images, thus not allowed to inject malicious code.
 
 ## Configure users
 
