@@ -191,7 +191,7 @@ So the following snippet can be used to parse this file and push the images sequ
 
 ```sh
 cd /path/to/tkgm-bundle
-yq e 'to_entries|map("imgpkg copy --tar " + .key + " --registry-ca-cert-path /path/to/harbor-ca.pem --to-repo ${TKG_CUSTOM_IMAGE_REPOSITORY}/" + .value)|.[]' publish-images-fromtar.yaml | bash
+yq e 'to_entries|map("imgpkg copy --tar " + .key + " --to-repo ${TKG_CUSTOM_IMAGE_REPOSITORY}/" + .value + " --registry-ca-cert-path /path/to/harbor-ca.pem")|.[]' publish-images-fromtar.yaml | bash
 ```
 
 This script uses the same info as the [images relocation section](./relocate-images.md), like the `tkgm-bundle` directory and the `harbor-ca.pem` file.

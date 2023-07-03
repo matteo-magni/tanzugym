@@ -33,6 +33,7 @@ For example, you can use environment variables, like:
 export IMGPKG_REGISTRY_HOSTNAME_0='<REGISTRY-FQDN>'
 export IMGPKG_REGISTRY_USERNAME_0='<REGISTRY-USERNAME>'
 export IMGPKG_REGISTRY_PASSWORD_0='<REGISTRY-PASSWORD>'
+REGISTRY_CA_PATH=/path/to/registry-ca.pem
 ```
 
 and then you can upload the images using the `tanzu isolated-cluster upload-bundle` command.
@@ -42,13 +43,13 @@ You also need the registry's CA chain certificates, to verify the endpoint when 
 When using Harbor v2.x as a registry, you can download the certificates to a file via
 
 ```sh
-curl -sSfLk -H 'accept: application/octet-stream' -o harbor-ca.pem https://<REGISTRY-FQDN>/api/v2.0/systeminfo/getcert
+curl -sSfLk -H 'accept: application/octet-stream' -o ${REGISTRY_CA_PATH} https://<REGISTRY-FQDN>/api/v2.0/systeminfo/getcert
 ```
 
 but if you have a different registry you can also fetch the full certificate chain via openssl:
 
 ```sh
-openssl s_client -connect <REGISTRY-FQDN>:443 -servername <REGISTRY-FQDN> -showcerts </dev/null 2>/dev/null | sed -n '/-----BEGIN CERTIFICATE-----/, /-----END CERTIFICATE-----/p' > harbor-ca.pem
+openssl s_client -connect <REGISTRY-FQDN>:443 -servername <REGISTRY-FQDN> -showcerts </dev/null 2>/dev/null | sed -n '/-----BEGIN CERTIFICATE-----/, /-----END CERTIFICATE-----/p' > ${REGISTRY_CA_PATH}
 ```
 
 This command fetches the leaf certificate, too, and works with every SSL-enabled endpoint.
@@ -60,7 +61,7 @@ Then you must push the images
 tanzu isolated-cluster upload-bundle \
   --source-directory tkgm-bundle \
   --destination-repo "<REGISTRY-FQDN>/tkg" \
-  --ca-certificate harbor-ca.pem
+  --ca-certificate ${REGISTRY_CA_PATH}
 ```
 
 !!! note
