@@ -14,42 +14,15 @@ so the plan is to eventually configure everything with it, following [this blog 
 Pinniped is the component used for authenticating against LDAP or OIDC endpoints, and comes as a package in TKG.
 It is silently installed at deploy time, but can be configured either during management cluster deployment or afterwards.
 
-## Configure Okta IdP
+## Configure identity provider
 
-You can sign up to an [Okta developer account](https://developer.okta.com/) to get started quickly with an OIDC-compliant identity provider,
+Guides for configuring [Okta](./identity-management-okta.md) and [Azure AD](./identity-management-azuread.md) OIDC endpoints are provided as a reference,
+and the configuration _might_ be adapted seamlessly to other providers, although this is not guaranteed.
+
+You can then follow either guide to get started quickly with an OIDC-compliant identity provider,
 and run some authentication and authorisation tests from your TKG platform.
-
-The simplest use case is to have users authenticate against Okta, retrieve the groups they belong to and assign Kubernetes permissions based on groups.
+The simplest use case is to have users authenticate against the IdP, retrieve the groups they're member of, and assign Kubernetes permissions based on groups.
 RBAC is still configured on the Kubernetes end, whilst the authentication part is completely delegated to the IdP.
-
-### Create a new application
-
-Log into your Okta developer account and go to `Applications` -> `Applications` -> `Create a new app integration`,
-select `OIDC - OpenID Connect` as sign-in method and `Web Application` as application type.
-
-Pick a name for the app (i.e. `tkgm`), enable the refresh token amd save; you will have to [set the sign-in redirect URI](#configure-okta-redirect-uri) when pinniped is up and running.
-Save the Client ID and the Client Secret, you will need them for configuring pinniped.
-
-### Create users and groups
-
-Now you may want to configure a few groups in `Directory` -> `Groups` and assign people to them, as well as the application you just created,
-so that group members will be able to authenticate to your cluster.
-Initially you have just one user, whose username is the email address you registered to Okta with,
-but you can also create more if you wish, if you want to simulate a multi-user multi-group scenario.
-
-### Configure authorization server
-
-You need to ensure that group memberships are passed along in the JWT token when a user authenticates,
-and you must instruct the authorization server to do so.
-
-Go to `Security` -> `API` and hit the pencil next to the `default` authorization server to modify it.
-Go to `Claims` and add a new claim: the name must be `groups`, included in `ID Token` type `Always`,
-and you may want to pass all the groups, with no filtering whatsoever.
-So the value type must be `Groups` and the filter `Matches regex` `.*`, and it must be included in `Any scope`.
-
-You can test the settings in the `Token Preview` tab.
-
-Further details are available in the [official Okta docs](https://developer.okta.com/docs/guides/customize-tokens-groups-claim/main/).
 
 ## Configure pinniped during management cluster deployment
 
@@ -60,13 +33,13 @@ Such variables, as described also in the [VMware official docs](https://docs.vmw
 
 ```yaml
 IDENTITY_MANAGEMENT_TYPE: oidc
-OIDC_IDENTITY_PROVIDER_CLIENT_ID: <OIDC-CLIENT-ID>
-OIDC_IDENTITY_PROVIDER_CLIENT_SECRET: <OIDC-CLIENT-SECRET>
-OIDC_IDENTITY_PROVIDER_GROUPS_CLAIM: groups
-OIDC_IDENTITY_PROVIDER_ISSUER_URL: https://<OIDC_ENDPOINT>
-OIDC_IDENTITY_PROVIDER_NAME: <IDP-NAME>
-OIDC_IDENTITY_PROVIDER_SCOPES: email,profile,groups
-OIDC_IDENTITY_PROVIDER_USERNAME_CLAIM: email
+OIDC_IDENTITY_PROVIDER_CLIENT_ID: "$OIDC_CLIENT_ID"
+OIDC_IDENTITY_PROVIDER_CLIENT_SECRET: "$OIDC_CLIENT_SECRET"
+OIDC_IDENTITY_PROVIDER_GROUPS_CLAIM: "$OIDC_GROUPS_CLAIM"
+OIDC_IDENTITY_PROVIDER_ISSUER_URL: "$OIDC_ISSUER_URL"
+OIDC_IDENTITY_PROVIDER_NAME: "$IDP_NAME"
+OIDC_IDENTITY_PROVIDER_SCOPES: "$OIDC_SCOPES"
+OIDC_IDENTITY_PROVIDER_USERNAME_CLAIM: "$OIDC_USERNAME_CLAIM"
 ```
 
 They must be set in the flat configuration file and the deployment process will take care of the rest, generating TLS certificates too.
@@ -113,7 +86,7 @@ Make sure you pick the actual cluster name, as shown in
 kubectl get clusters.cluster.x-k8s.io -n tkg-system
 ```
 
-Do to take a look at the generated `pinniped-secret.yaml` file and change it if your cluster is behind a proxy.
+Do take a look at the generated `pinniped-secret.yaml` file, and change it if your cluster is behind a proxy.
 In fact, proxy configurations do not get passed along to the pinniped values, and so you have to set the values for:
 
 - `http_proxy`
@@ -187,9 +160,9 @@ replicaset.apps/pinniped-concierge-kube-cert-agent-f6fbff54f   1         1      
 
 <https://docs.vmware.com/en/VMware-Tanzu-Kubernetes-Grid/2.1/tkg-deploy-mc-21/mgmt-iam-custom-pinniped-certificates.html>
 
-## Configure Okta redirect URI
+## Configure redirect URI
 
-Now that you have pinniped configured and running, you can go back to your Okta account and set the redirect URI for your application.
+Now that you have pinniped configured and running, you can go back to your IdP configuration portal and set the redirect URI for your application.
 Edit the `General Settings` section of your application and set the sign-in redirect URI to `https://<YOUR-MGMT-CLUSTER-ENDPOINT>:31234/callback`.
 Use the very same endpoint you set in your certificate, if you happened to change it.
 
@@ -203,7 +176,7 @@ tanzu mc kubeconfig get --export-file /tmp/tkgm.oidc.kubeconfig
 
 Open the file and look at the `users` object; the `tanzu pinniped-auth login` command is used to authenticate the user, with a few configuration options:
 
-- make sure the `--issuer` flag points to the same endpoint as the [Okta redirect URI](#configure-okta-redirect-uri) (without the trailing `/callback`);
+- make sure the `--issuer` flag points to the same endpoint as the [redirect URI](#configure-redirect-uri) (without the trailing `/callback`);
 - add the item `--skip-browser` to the end of the `args` list, to prevent the Tanzu CLI from trying to run a browser to let the user authenticate
 (on SSH-based jumphosts you do not have nor you do want to have a GUI).
 
