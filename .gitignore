@@ -3,6 +3,7 @@
 *.dontcommit
 *.dontcommit.*
 /site
+/lab
 
 # Created by https://www.toptal.com/developers/gitignore/api/macos,linux,windows,visualstudiocode,terraform
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,linux,windows,visualstudiocode,terraform
