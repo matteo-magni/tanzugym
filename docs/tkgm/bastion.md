@@ -1,4 +1,4 @@
-# Prepare bastion host
+# Bastion host
 
 You will need a Linux bastion host equipped with a few tools to be able to fully deploy and operate TKGM.
 You can pick any distribution of choice, as long as you know how to do a basic configuration and deploy software on it.
@@ -32,11 +32,33 @@ On Ubuntu, it can be installed as
 apt install -y squid
 ```
 
-By default, Squid denies all outgoing connections if not explicitly authorised via a `http_access` directive, like
+By default, Squid denies all outgoing connections if not explicitly authorised via a `http_access` directive.
+The `/etc/squid/conf.d/` directory can be used to store custom configuration files, rather than changing the default `/etc/squid/squid.conf`.
 
-```text
-acl external_allowed dstdomain "/etc/squid/conf.d/allowed-domains.txt"
+```text title="/etc/squid/conf.d/allowed.conf"
+acl external_allowed dstdom_regex "/etc/squid/conf.d/allowed-domains-regex.txt"
 http_access allow external_allowed
+```
+
+For testing purposes, all domains can be allowed as
+
+```text title="/etc/squid/conf.d/allowed-domains-regex.txt"
+.*
+```
+
+and with `curl` you can make sure that squid is working
+
+```text hl_lines="7-9"
+❯ curl -x http://my-squid-host:3128 -I github.com
+
+HTTP/1.1 301 Moved Permanently
+Content-Length: 0
+Location: https://github.com/
+Date: Thu, 07 Sep 2023 07:49:44 GMT
+X-Cache: MISS from my-squid-host
+X-Cache-Lookup: MISS from my-squid-host:3128
+Via: 1.1 my-squid-host (squid/5.7)
+Connection: keep-alive
 ```
 
 ## Software installation

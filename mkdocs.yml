@@ -100,7 +100,7 @@ markdown_extensions:
 
 nav:
 - HOME: index.md
-- Tanzu Kubernetes Grid:
+- Tanzu Kubernetes Grid multicloud:
   - tkgm/index.md
   - tkgm/bastion.md
   - Internal registry:
@@ -113,7 +113,12 @@ nav:
     - tkgm/identity-management.md
     - tkgm/identity-management-azuread.md
     - tkgm/identity-management-okta.md
+  - Backup:
+      - tkgm/velero.md
   - tkgm/troubleshooting.md
+- vSphere with Tanzu:
+  - tkgs/prerequisites.md
+  - tkgs/troubleshooting.md
 - Tanzu Application Platform:
   - tap/relocate-tap-images.md
   - tap/add-tap-repository.md
