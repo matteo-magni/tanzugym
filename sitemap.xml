@@ -2,82 +2,112 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://matteo-magni.github.io/tanzugym/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2024-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://matteo-magni.github.io/tanzugym/tap/add-tap-repository/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2024-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://matteo-magni.github.io/tanzugym/tap/install-cli-tools/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2024-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://matteo-magni.github.io/tanzugym/tap/relocate-tap-images/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2024-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://matteo-magni.github.io/tanzugym/tap/relocate-tbs-dependencies/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2024-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://matteo-magni.github.io/tanzugym/tkgm/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2024-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://matteo-magni.github.io/tanzugym/tkgm/bastion/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2024-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://matteo-magni.github.io/tanzugym/tkgm/identity-management-azuread/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2024-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://matteo-magni.github.io/tanzugym/tkgm/identity-management-okta/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2024-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://matteo-magni.github.io/tanzugym/tkgm/identity-management/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2024-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://matteo-magni.github.io/tanzugym/tkgm/ingress/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2024-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://matteo-magni.github.io/tanzugym/tkgm/management-cluster/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2024-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://matteo-magni.github.io/tanzugym/tkgm/registry/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2024-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://matteo-magni.github.io/tanzugym/tkgm/relocate-images/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2024-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://matteo-magni.github.io/tanzugym/tkgm/troubleshooting/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2024-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://matteo-magni.github.io/tanzugym/tkgm/velero/</loc>
+         <lastmod>2024-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://matteo-magni.github.io/tanzugym/tkgm/workload-cluster/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2024-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://matteo-magni.github.io/tanzugym/tkgs/nsxalb/</loc>
+         <lastmod>2024-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://matteo-magni.github.io/tanzugym/tkgs/permissions/</loc>
+         <lastmod>2024-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://matteo-magni.github.io/tanzugym/tkgs/prerequisites/</loc>
+         <lastmod>2024-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://matteo-magni.github.io/tanzugym/tkgs/supervisor/</loc>
+         <lastmod>2024-05-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://matteo-magni.github.io/tanzugym/tkgs/troubleshooting/</loc>
+         <lastmod>2024-05-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
